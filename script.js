@@ -23,7 +23,7 @@
 /*=================================================
                 GLOBAL VARIABLES
 =================================================*/
-let initialValue = null;
+let displayValue = null;
 let firstOperand = null;
 let secondOperand = null;
 let operatorState = null;
@@ -73,59 +73,95 @@ function updtDisplay(string) {
 
 const numBtns = document.getElementsByClassName('numeral');
 
+    //first operand & display
 function getNum() {
     for (const num of numBtns) {
         num.addEventListener('click', () =>{
-            if (initialValue === null) {
-                initialValue = num.textContent;
-                updtDisplay(initialValue);
+            if (displayValue === null) {
+                displayValue = num.textContent;
+                updtDisplay(displayValue);
                 return; 
             }
-            initialValue += num.textContent;
-            updtDisplay(initialValue);
-            console.log(initialValue);
+            displayValue += num.textContent;
+            updtDisplay(displayValue);
+            console.log(displayValue);
         });
     }
 }
 
 getNum()
 
+    //second operand
+function getNumTwo() {
+    for (const num of numBtns) {
+        num.addEventListener('click', () =>{
+            if (secondOperand === null) {
+                secondOperand = num.textContent;
+                console.log(secondOperand);
+            } else {
+                secondOperand += num.textContent;
+                console.log(secondOperand);
+            }
+        });
+}}
+
 //Decimal point button
 const point = document.getElementById('point');
 
 point.addEventListener('click', () => {
-    if (initialValue === null) {
+    if (displayValue === null) {
         return;
-    } else if (initialValue.includes('.')) {
+        
+    } else if (displayValue.includes('.')) {
         return;
+    } else if (secondOperand !== null) {;
+        secondOperand += point.textContent;
+        console.log(secondOperand);
+        displayValue += point.textContent;
+        updtDisplay(displayValue);
     } else {
-        initialValue += point.textContent;
-        updtDisplay(initialValue);
+        displayValue += point.textContent;
+        updtDisplay(displayValue);
     }
-})
-
-
-
-
-
-/*function cp() {
-    for (let i = 0; i < numBtns.length; i++) {
-    numBtns[i].addEventListener('click', () => {
-        console.log('hello');
-    });
-};
-}
-
-cp();*/
-
-
-
-/*function getNum() {numBtns.forEach(item => {
-    item.addEventListener('click', () => {
-        let number = item.textContent;
-        console.log(number);
-    });
 });
+
+//Operators 
+const operators = document.getElementsByClassName('operator');
+
+function getOp() {
+    for (const operator of operators) {
+        operator.addEventListener('click', () =>{
+            if (displayValue === null) {
+                return;
+            } else if (displayValue.includes(`${operatorState}`)){
+                return;
+            }
+            else if (operator.textContent == '×') {
+                operatorState = '*';
+                firstOperand = Number(displayValue);
+                displayValue += '*';
+                updtDisplay(displayValue);
+            } else {
+                operatorState = operator.textContent;
+                displayValue += operatorState;
+                updtDisplay(displayValue);
+            } 
+            getNumTwo();
+        });
+    }
 }
 
-getNum();*/
+getOp();
+
+
+
+//Reset
+const clearBtn = document.querySelector('#ac');
+
+clearBtn.addEventListener('click', () => {
+    displayValue = null;
+    firstOperand = null;
+    secondOperand = null;
+    operatorState = null;
+    updtDisplay('0');
+});
