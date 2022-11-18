@@ -19,23 +19,32 @@
     */
 
 
-    /*=================================================
-                    MATH FUNCTIONS
-    =================================================*/
 
-    function addition(num1, num2) {
-        return num1 + num2;
-    }
+/*=================================================
+                GLOBAL VARIABLES
+=================================================*/
+let firstOperand = null;
+let secondOperand = null;
+let operatorState = null;
 
-    function subtraction(num1, num2) {
-        return num1 - num2;
-    }
 
-    function multiplication(num1, num2) {
-        return num1 * num2;
-    }
+/*=================================================
+                MATH FUNCTIONS
+=================================================*/
 
-    function division(num1, num2) {
-        return num1 / num2;
-    }
+function addition(num1, num2) {
+    return num1 + num2;
+}
+
+function subtraction(num1, num2) {
+    return num1 - num2;
+}
+
+function multiplication(num1, num2) {
+    return num1 * num2;
+}
+
+function division(num1, num2) {
+    return num1 / num2;
+}
 
