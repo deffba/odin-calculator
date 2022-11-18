@@ -23,9 +23,12 @@
 /*=================================================
                 GLOBAL VARIABLES
 =================================================*/
+let initialValue = null;
 let firstOperand = null;
 let secondOperand = null;
 let operatorState = null;
+
+
 
 
 /*=================================================
@@ -48,3 +51,81 @@ function division(num1, num2) {
     return num1 / num2;
 }
 
+
+
+/*=================================================
+                    DISPLAY
+=================================================*/
+
+let display = document.getElementById('display');
+
+function updtDisplay(string) {
+    display.textContent = string;
+}
+
+
+
+/*=================================================
+                    INPUT
+=================================================*/
+
+//Number buttons
+
+const numBtns = document.getElementsByClassName('numeral');
+
+function getNum() {
+    for (const num of numBtns) {
+        num.addEventListener('click', () =>{
+            if (initialValue === null) {
+                initialValue = num.textContent;
+                updtDisplay(initialValue);
+                return; 
+            }
+            initialValue += num.textContent;
+            updtDisplay(initialValue);
+            console.log(initialValue);
+        });
+    }
+}
+
+getNum()
+
+//Decimal point button
+const point = document.getElementById('point');
+
+point.addEventListener('click', () => {
+    if (initialValue === null) {
+        return;
+    } else if (initialValue.includes('.')) {
+        return;
+    } else {
+        initialValue += point.textContent;
+        updtDisplay(initialValue);
+    }
+})
+
+
+
+
+
+/*function cp() {
+    for (let i = 0; i < numBtns.length; i++) {
+    numBtns[i].addEventListener('click', () => {
+        console.log('hello');
+    });
+};
+}
+
+cp();*/
+
+
+
+/*function getNum() {numBtns.forEach(item => {
+    item.addEventListener('click', () => {
+        let number = item.textContent;
+        console.log(number);
+    });
+});
+}
+
+getNum();*/
