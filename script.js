@@ -212,6 +212,25 @@ acBtn.addEventListener('click', () => { //full reset
 })
 
 
+//DELETE
+
+const delBtn = document.getElementById('delete');
+
+delBtn.addEventListener('click', () => {
+    if (secondOperand !== null) {
+        secondOperand = secondOperand.slice(0, -1);
+        if (secondOperand === '') { //if all characters are deleted you can keep deleting
+            secondOperand = null;
+        }
+       
+    } else if (operatorState !== null) {
+        operatorState = null;
+    } else {
+        firstOperand = firstOperand.slice(0, -1);        
+    }
+    updtDisplay();
+})
+
 
 
     
