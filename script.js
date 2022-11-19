@@ -23,9 +23,6 @@
 /*=================================================
                 GLOBAL VARIABLES
 =================================================*/
-let displayValue = null;
-let firstOperandHolder = null;
-let secondOperandHolder = null;
 let firstOperand = null;
 let secondOperand = null;
 let operatorState = null;
@@ -36,21 +33,22 @@ let operatorState = null;
 /*=================================================
                 MATH FUNCTIONS
 =================================================*/
+let sum = null;
 
 function addition(num1, num2) {
-    return num1 + num2;
+    return sum = num1 + num2;
 }
 
 function subtraction(num1, num2) {
-    return num1 - num2;
+    return sum = num1 - num2;
 }
 
 function multiplication(num1, num2) {
-    return num1 * num2;
+    return sum = num1 * num2;
 }
 
 function division(num1, num2) {
-    return num1 / num2;
+    return sum = num1 / num2;
 }
 
 
@@ -62,17 +60,23 @@ function division(num1, num2) {
 let display = document.getElementById('display');
 
 function updtDisplay() {
-    if (firstOperand === null) {
+    if (firstOperand === null) { //when empty
     display.textContent = 0;
-    } else if (firstOperand !== null && operatorState === null) {
+    } else if (firstOperand !== null && operatorState === null) { //start displaying 1st operand
         display.textContent = `${firstOperand}`;
-    } else if (operatorState !== null) {
+    } else if (operatorState !== null) { //display 1st operand and operator
         display.textContent = `${firstOperand}${operatorState}`;
     } 
     
-    if (secondOperand !== null) {
+    if (secondOperand !== null) { //display 1st operand, operator and 2nd operand
         display.textContent = `${firstOperand}${operatorState}${secondOperand}`;
     }
+
+    if (sum !== null) { //display sum after pressing equal sign
+        display.textContent = sum;
+    }
+
+
 
 }
 
@@ -102,7 +106,32 @@ for (const num of numBtns){
 }
 
 
-//
+//GET DECIMAL POINT
+
+let decimalPoint = document.getElementById('point');
+
+decimalPoint.addEventListener('click', () => {
+    let decPnt = decimalPoint.textContent;
+
+    if (operatorState === null) { //prevent several decimal points in one number
+        if (firstOperand.includes('.')) {
+            return;
+        } else {
+            firstOperand += decPnt;
+        }
+    }
+
+    if (operatorState !== null) { //prevent several decimal points in one number
+        if (secondOperand.includes('.')) {
+            return;
+        } else {
+            secondOperand += decPnt;
+        }
+    }
+
+    updtDisplay();
+
+});
 
 
 //GET OPERATOR
@@ -113,7 +142,14 @@ for (const op of operators) {
           op.addEventListener('click', () =>{
             let operator = op.textContent
         
-                    if (operatorState !== null) {
+                    if (sum !== null) {
+                        firstOperand = sum;
+                        resetOnEqual();
+                    } 
+                    
+                    if (firstOperand === null) {
+                            return;
+                    } else if (operatorState !== null) {
                         return;
                     } else if (operator == '×') {
                         operatorState = '*';                    
@@ -124,6 +160,61 @@ for (const op of operators) {
                     updtDisplay();
                 });
             }
+
+    
+//APPLY OPERATOR
+
+const equalSign = document.getElementById('equalSign');
+
+equalSign.addEventListener('click', () => {
+    let fO = Number(firstOperand);
+    let sO = Number(secondOperand);
+
+
+    switch (operatorState) {
+        case '+':
+            addition(fO, sO)
+            break;
+
+        case '-':
+            subtraction(fO, sO)
+            break;
+        
+        case '*':
+            multiplication(fO, sO)
+            break;
+
+        case '÷':
+            division(fO, sO)
+            break;
+
+    }
+
+    updtDisplay();
+})
+
+//RESET
+
+function resetOnEqual() { //partial reset after equals to continue operation
+    sum = null;
+    operatorState = null;
+    secondOperand = null;
+}
+
+const acBtn = document.getElementById('ac')
+
+acBtn.addEventListener('click', () => { //full reset
+    sum = null;
+    operatorState = null;
+    secondOperand = null;
+    firstOperand = null;
+    updtDisplay();
+})
+
+
+
+
+    
 
 
 
