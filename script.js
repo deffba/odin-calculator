@@ -1,11 +1,11 @@
 /*PSEUDO-CODE
     1. Get entered operand
         i. set eventlisteners to numerals
-        ii. store in firstOperand
+        ii. store in firstOperandHolder
     2. Get operator
         i. eventlisteners on operators
         ii. display operator
-        iii. store firstOperand and operator in string.?
+        iii. store firstOperandHolder and operator in string.?
         iiib. store operator separately and await second operand.
     3. Get next operand(s)
     4. Perform calculation
@@ -24,6 +24,8 @@
                 GLOBAL VARIABLES
 =================================================*/
 let displayValue = null;
+let firstOperandHolder = null;
+let secondOperandHolder = null;
 let firstOperand = null;
 let secondOperand = null;
 let operatorState = null;
@@ -74,17 +76,30 @@ function updtDisplay(string) {
 const numBtns = document.getElementsByClassName('numeral');
 
     //first operand & display
+
+
+
+
 function getNum() {
     for (const num of numBtns) {
+        num.addEventListener('click', getNumEv);
+    }}
+
+ function getNum() {
+    for (const num of numBtns) {
         num.addEventListener('click', () =>{
-            if (displayValue === null) {
-                displayValue = num.textContent;
+            if (operatorState !== null){
+                return;
+            } else if(firstOperandHolder === null) {
+                firstOperandHolder = num.textContent;
+                displayValue = firstOperandHolder;
                 updtDisplay(displayValue);
                 return; 
             }
-            displayValue += num.textContent;
+            firstOperandHolder += num.textContent;
+            displayValue = firstOperandHolder;
             updtDisplay(displayValue);
-            console.log(displayValue);
+            console.log(firstOperandHolder);
         });
     }
 }
@@ -95,12 +110,19 @@ getNum()
 function getNumTwo() {
     for (const num of numBtns) {
         num.addEventListener('click', () =>{
-            if (secondOperand === null) {
-                secondOperand = num.textContent;
-                console.log(secondOperand);
+            if (operatorState === null){
+                return;
+            }            
+            else if (secondOperandHolder === null) {
+                secondOperandHolder = num.textContent;
+                console.log('second: ' + secondOperandHolder);
+                displayValue += secondOperandHolder;
+                updtDisplay(displayValue);
             } else {
-                secondOperand += num.textContent;
-                console.log(secondOperand);
+                secondOperandHolder += num.textContent;
+                displayValue += num.textContent;
+                updtDisplay(displayValue);
+                console.log('second: ' + secondOperandHolder);
             }
         });
 }}
@@ -109,18 +131,19 @@ function getNumTwo() {
 const point = document.getElementById('point');
 
 point.addEventListener('click', () => {
-    if (displayValue === null) {
+    if (firstOperandHolder === null) {
         return;
         
-    } else if (displayValue.includes('.')) {
+    } else if (firstOperandHolder.includes('.')) {
         return;
-    } else if (secondOperand !== null) {;
-        secondOperand += point.textContent;
-        console.log(secondOperand);
+    } else if (secondOperandHolder !== null) {;
+        secondOperandHolder += point.textContent;
+        console.log(secondOperandHolder);
         displayValue += point.textContent;
         updtDisplay(displayValue);
     } else {
-        displayValue += point.textContent;
+        firstOperandHolder += point.textContent;
+        displayValue = firstOperandHolder;
         updtDisplay(displayValue);
     }
 });
@@ -131,14 +154,15 @@ const operators = document.getElementsByClassName('operator');
 function getOp() {
     for (const operator of operators) {
         operator.addEventListener('click', () =>{
-            if (displayValue === null) {
+            firstOperandHolder = Number(firstOperandHolder);
+
+            if (typeof firstOperandHolder !== 'number') {
                 return;
             } else if (displayValue.includes(`${operatorState}`)){
                 return;
             }
             else if (operator.textContent == '×') {
                 operatorState = '*';
-                firstOperand = Number(displayValue);
                 displayValue += '*';
                 updtDisplay(displayValue);
             } else {
@@ -146,6 +170,9 @@ function getOp() {
                 displayValue += operatorState;
                 updtDisplay(displayValue);
             } 
+            firstOperand = Number(firstOperandHolder);
+            console.log('1st op: ' + firstOperand);
+            secondOperandHolder = null;
             getNumTwo();
         });
     }
@@ -160,8 +187,11 @@ const clearBtn = document.querySelector('#ac');
 
 clearBtn.addEventListener('click', () => {
     displayValue = null;
+    firstOperandHolder = null;
+    secondOperandHolder = null;
     firstOperand = null;
     secondOperand = null;
     operatorState = null;
     updtDisplay('0');
+    
 });
