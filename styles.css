@@ -30,16 +30,19 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    /*align-items: center;*/
+    align-items: center;
     height: 30px;
     width: 300px;
     background-color: burlywood;
+    color: black;
 }
 
 #display {
-    height: 20px;
+    height: 60px;
     width: 300px;
     background-color: rgb(165, 217, 106);
+    font-size: 45px;
+    color: black;
 }
 
 #deleters-container {
