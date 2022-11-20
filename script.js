@@ -25,14 +25,15 @@ function subtraction(num1, num2) {
 
 function multiplication(num1, num2) {
     sum = num1 * num2;
+   
 }
 
 function division(num1, num2) {
     sum = num1 / num2;
 }
 
-function roundDown(num) {
-
+function roundDown() {
+    sum = Math.round(sum * 10) / 10;
 }
 
 /*=================================================
@@ -55,7 +56,8 @@ function updtDisplay() {
     }
 
     if (sum !== null) { //display sum after pressing equal sign
-        display.textContent = sum;
+        roundDown();
+        display.textContent =  sum;
     }
 
     if (sum == 'Infinity') { //When dividing by zero
@@ -264,7 +266,7 @@ function operate() {
             break;
 
     }
-    
+
     updtDisplay();
 
 }
