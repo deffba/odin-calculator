@@ -41,13 +41,13 @@ let display = document.getElementById('display');
 
 function updtDisplay() {
     if (firstOperand === null) { //when empty
-    display.textContent = 0;
+        display.textContent = 0;
     } else if (firstOperand !== null && operatorState === null) { //start displaying 1st operand
         display.textContent = `${firstOperand}`;
     } else if (operatorState !== null) { //display 1st operand and operator
         display.textContent = `${firstOperand}${operator}`;
-    } 
-    
+    }
+
     if (secondOperand !== null) { //display 1st operand, operator and 2nd operand
         display.textContent = `${firstOperand}${operator}${secondOperand}`;
     }
@@ -57,9 +57,10 @@ function updtDisplay() {
     }
 
     if (sum == 'Infinity') { //When dividing by zero
-        infAndBeyond = setTimeout( () => {
-                sum += ' and beyond!';
-                updtDisplay()
+        display.style.fontSize = '38px';
+        infAndBeyond = setTimeout(() => {
+            sum += ' and beyond!';
+            updtDisplay()
         }, 1750)
     }
 
@@ -76,22 +77,38 @@ function updtDisplay() {
 
 const numBtns = document.getElementsByClassName('numeral');
 
-for (const num of numBtns){
+for (const num of numBtns) {
     num.addEventListener('click', () => {
         getNumInput(num);
     })
 }
 
+window.addEventListener('keydown', (event) => {
+    let key = event.key;
+    if (key >= 0 || key <= 9) {
+    getNumInput(key)
+}
+})
+
+
+
 function getNumInput(obj) {
-    let inputNum = obj.textContent;
+    let inputNum;
+    
+    if (obj >= 0 || obj <= 9) { //differentiate between mouse and keyboard input
+        inputNum = obj;
+    } else {
+        inputNum = obj.textContent;
+    }
+
 
     if (operatorState === null) { //handle firstOperand both as null value and int
-        (firstOperand === null) ? firstOperand = inputNum : firstOperand += inputNum; 
+        (firstOperand === null) ? firstOperand = inputNum : firstOperand += inputNum;
         updtDisplay();
     }
 
     if (operatorState !== null) {
-        (secondOperand === null) ? secondOperand = inputNum : secondOperand += inputNum; 
+        (secondOperand === null) ? secondOperand = inputNum : secondOperand += inputNum;
         updtDisplay();
     }
 }
@@ -134,37 +151,71 @@ function getDecPnt(obj) {
 const operators = document.getElementsByClassName('operator');
 
 for (const op of operators) {
-          op.addEventListener('click', () =>{
-            getOperator(op);
-        });
+    op.addEventListener('click', () => {
+        getOperator(op);
+    });
 }
 
+window.addEventListener('keydown', (event) => {
+    let key = event.key;
+    if (key == '/' || key == '*' || key == '+' || key == '-') {
+        event.preventDefault();
+    getOperator(key);
+}
+})
+
 function getOperator(obj) {
-    operator = obj.textContent
-        
-    if (sum !== null) {
+    
+    //operator = obj.textContent
+
+    if (obj == '+' || obj == '-') { //handle keyboard input
+        operator = obj;
+    } else if (obj == '/' ){
+        operator = '÷'
+    } else if (obj == '*') {
+        operator = '×';
+    } else {
+        operator = obj.textContent;
+    }
+
+    if (sum !== null) { //continue calculating with new sum
         firstOperand = sum;
         resetOnEqual();
-    } 
-    
-    if (firstOperand === null) {
-            return;
+    }
+
+    if (firstOperand === null) {//prevent inputting operator before first operand
+        return;
     } else if (operatorState !== null) {
         return;
     } else if (operator == '×') {
-        operatorState = '*';                    
+        operatorState = '*';
     } else {
-        operatorState = obj.textContent;
-    } 
+        operatorState = operator;
+    }
+    
 
     updtDisplay();
 }
-    
+
 //APPLY OPERATOR
 
 const equalSign = document.getElementById('equalSign');
 
 equalSign.addEventListener('click', () => {
+    operate();
+})
+
+
+
+window.addEventListener('keydown', (event) => {
+    var name = event.key;
+    var code = event.code;
+    if (event.key == '=') {
+        operate();
+    }
+})
+
+function operate() {
     let fO = Number(firstOperand);
     let sO = Number(secondOperand);
 
@@ -177,7 +228,7 @@ equalSign.addEventListener('click', () => {
         case '-':
             subtraction(fO, sO)
             break;
-        
+
         case '*':
             multiplication(fO, sO)
             break;
@@ -189,7 +240,8 @@ equalSign.addEventListener('click', () => {
     }
 
     updtDisplay();
-})
+
+}
 
 //RESET
 
@@ -201,7 +253,7 @@ function resetOnEqual() { //partial reset after equals to continue operation
 
 const acBtn = document.getElementById('ac')
 
-acBtn.addEventListener('click', () => { 
+acBtn.addEventListener('click', () => {
     fullRst();
 })
 
@@ -210,6 +262,7 @@ function fullRst() { //clears both operands and operator and resets screen
     operatorState = null;
     secondOperand = null;
     firstOperand = null;
+    display.style.fontSize = '65px';
     updtDisplay();
 }
 
@@ -228,17 +281,17 @@ function del() {
         if (secondOperand === '') { //if all characters are deleted you can keep deleting
             secondOperand = null;
         }
-       
+
     } else if (operatorState !== null) {
         operatorState = null;
     } else {
-        firstOperand = firstOperand.slice(0, -1);        
+        firstOperand = firstOperand.slice(0, -1);
     }
     updtDisplay();
 }
 
 
-    
+
 
 
 
