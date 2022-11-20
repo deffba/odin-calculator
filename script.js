@@ -331,6 +331,8 @@ function del() {
 
     } else if (operatorState !== null) {
         operatorState = null;
+    } else if (firstOperand === null) {
+        return
     } else {
         firstOperand = firstOperand.slice(0, -1);
     }
