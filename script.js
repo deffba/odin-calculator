@@ -26,6 +26,7 @@
 let firstOperand = null;
 let secondOperand = null;
 let operatorState = null;
+let operator; //the operator that's shown
 
 
 
@@ -48,6 +49,9 @@ function multiplication(num1, num2) {
 }
 
 function division(num1, num2) {
+    if (num1 === 0 && num2 ===0){
+        sum
+    }
     return sum = num1 / num2;
 }
 
@@ -65,11 +69,11 @@ function updtDisplay() {
     } else if (firstOperand !== null && operatorState === null) { //start displaying 1st operand
         display.textContent = `${firstOperand}`;
     } else if (operatorState !== null) { //display 1st operand and operator
-        display.textContent = `${firstOperand}${operatorState}`;
+        display.textContent = `${firstOperand}${operator}`;
     } 
     
     if (secondOperand !== null) { //display 1st operand, operator and 2nd operand
-        display.textContent = `${firstOperand}${operatorState}${secondOperand}`;
+        display.textContent = `${firstOperand}${operator}${secondOperand}`;
     }
 
     if (sum !== null) { //display sum after pressing equal sign
@@ -91,18 +95,22 @@ const numBtns = document.getElementsByClassName('numeral');
 
 for (const num of numBtns){
     num.addEventListener('click', () => {
-        let inputNum = num.textContent;
-
-        if (operatorState === null) { //handle firstOperand both as null value and int
-            (firstOperand === null) ? firstOperand = inputNum : firstOperand += inputNum; 
-            updtDisplay();
-        }
-
-        if (operatorState !== null) {
-            (secondOperand === null) ? secondOperand = inputNum : secondOperand += inputNum; 
-            updtDisplay();
-        }
+        getNumInput(num);
     })
+}
+
+function getNumInput(obj) {
+    let inputNum = obj.textContent;
+
+    if (operatorState === null) { //handle firstOperand both as null value and int
+        (firstOperand === null) ? firstOperand = inputNum : firstOperand += inputNum; 
+        updtDisplay();
+    }
+
+    if (operatorState !== null) {
+        (secondOperand === null) ? secondOperand = inputNum : secondOperand += inputNum; 
+        updtDisplay();
+    }
 }
 
 
@@ -111,7 +119,12 @@ for (const num of numBtns){
 let decimalPoint = document.getElementById('point');
 
 decimalPoint.addEventListener('click', () => {
-    let decPnt = decimalPoint.textContent;
+    getDecPnt(decimalPoint);
+
+});
+
+function getDecPnt(obj) {
+    let decPnt = obj.textContent;
 
     if (operatorState === null) { //prevent several decimal points in one number
         if (firstOperand.includes('.')) {
@@ -130,8 +143,7 @@ decimalPoint.addEventListener('click', () => {
     }
 
     updtDisplay();
-
-});
+}
 
 
 //GET OPERATOR
@@ -140,27 +152,30 @@ const operators = document.getElementsByClassName('operator');
 
 for (const op of operators) {
           op.addEventListener('click', () =>{
-            let operator = op.textContent
+            getOperator(op);
+        });
+}
+
+function getOperator(obj) {
+    operator = obj.textContent
         
-                    if (sum !== null) {
-                        firstOperand = sum;
-                        resetOnEqual();
-                    } 
-                    
-                    if (firstOperand === null) {
-                            return;
-                    } else if (operatorState !== null) {
-                        return;
-                    } else if (operator == '×') {
-                        operatorState = '*';                    
-                    } else {
-                        operatorState = op.textContent;
-                    } 
+    if (sum !== null) {
+        firstOperand = sum;
+        resetOnEqual();
+    } 
+    
+    if (firstOperand === null) {
+            return;
+    } else if (operatorState !== null) {
+        return;
+    } else if (operator == '×') {
+        operatorState = '*';                    
+    } else {
+        operatorState = obj.textContent;
+    } 
 
-                    updtDisplay();
-                });
-            }
-
+    updtDisplay();
+}
     
 //APPLY OPERATOR
 
@@ -203,13 +218,17 @@ function resetOnEqual() { //partial reset after equals to continue operation
 
 const acBtn = document.getElementById('ac')
 
-acBtn.addEventListener('click', () => { //full reset
+acBtn.addEventListener('click', () => { 
+    fullRst();
+})
+
+function fullRst() { //clears both operands and operator and resets screen
     sum = null;
     operatorState = null;
     secondOperand = null;
     firstOperand = null;
     updtDisplay();
-})
+}
 
 
 //DELETE
@@ -217,6 +236,10 @@ acBtn.addEventListener('click', () => { //full reset
 const delBtn = document.getElementById('delete');
 
 delBtn.addEventListener('click', () => {
+    del();
+})
+
+function del() {
     if (secondOperand !== null) {
         secondOperand = secondOperand.slice(0, -1);
         if (secondOperand === '') { //if all characters are deleted you can keep deleting
@@ -229,8 +252,7 @@ delBtn.addEventListener('click', () => {
         firstOperand = firstOperand.slice(0, -1);        
     }
     updtDisplay();
-})
-
+}
 
 
     
@@ -245,141 +267,3 @@ delBtn.addEventListener('click', () => {
 
 
 
-// /*=================================================
-//                     DISPLAY
-// =================================================*/
-
-// let display = document.getElementById('display');
-
-// function updtDisplay(string) {
-//     display.textContent = string;
-// }
-
-
-
-// /*=================================================
-//                     INPUT
-// =================================================*/
-
-// //Number buttons
-
-// const numBtns = document.getElementsByClassName('numeral');
-
-//     //first operand & display
-
-
-
-
-
-
-//  function getNum() {
-//     for (const num of numBtns) {
-//         num.addEventListener('click', () =>{
-//             if (operatorState !== null){
-//                 return;
-//             } else if(firstOperandHolder === null) {
-//                 firstOperandHolder = num.textContent;
-//                 displayValue = firstOperandHolder;
-//                 updtDisplay(displayValue);
-//                 return; 
-//             }
-//             firstOperandHolder += num.textContent;
-//             displayValue = firstOperandHolder;
-//             updtDisplay(displayValue);
-//             console.log(firstOperandHolder);
-//         });
-//     }
-// }
-
-// getNum()
-
-//     //second operand
-// function getNumTwo() {
-//     for (const num of numBtns) {
-//         num.addEventListener('click', () =>{
- 
-//             if (operatorState === null){
-//                 return;
-//             }            
-//             else if (secondOperandHolder === null) {
-//                 secondOperandHolder = num.textContent;
-//                 displayValue += secondOperandHolder;
-//                 updtDisplay(displayValue);
-//                 return;
-//             }
-        
-//                 secondOperandHolder += num.textContent;
-//                 displayValue += num.textContent;
-//                 updtDisplay(displayValue);
-
-//         });
-// }}
-
-// //Decimal point button
-// const point = document.getElementById('point');
-
-// point.addEventListener('click', () => {
-//     if (firstOperandHolder === null) {
-//         return;
-        
-//     } else if (firstOperandHolder.includes('.')) {
-//         return;
-//     } else if (secondOperandHolder !== null) {;
-//         secondOperandHolder += point.textContent;
-//         console.log(secondOperandHolder);
-//         displayValue += point.textContent;
-//         updtDisplay(displayValue);
-//     } else {
-//         firstOperandHolder += point.textContent;
-//         displayValue = firstOperandHolder;
-//         updtDisplay(displayValue);
-//     }
-// });
-
-// //Operators 
-// const operators = document.getElementsByClassName('operator');
-
-// function getOp() {
-//     for (const operator of operators) {
-//         operator.addEventListener('click', () =>{
-//             firstOperandHolder = Number(firstOperandHolder);
-
-//             if (typeof firstOperandHolder !== 'number') {
-//                 return;
-//             } else if (displayValue.includes(`${operatorState}`)){
-//                 return;
-//             }
-//             else if (operator.textContent == '×') {
-//                 operatorState = '*';
-//                 displayValue += '*';
-//                 updtDisplay(displayValue);
-//             } else {
-//                 operatorState = operator.textContent;
-//                 displayValue += operatorState;
-//                 updtDisplay(displayValue);
-//             } 
-//             firstOperand = Number(firstOperandHolder);
-//             secondOperandHolder = null;
-//             getNumTwo();
-//         });
-//     }
-// }
-
-// getOp();
-
-
-
-// //Reset
-// const clearBtn = document.querySelector('#ac');
-
-// clearBtn.addEventListener('click', () => {
-//     displayValue = null;
-//     firstOperandHolder = null;
-//     secondOperandHolder = null;
-//     firstOperand = null;
-//     secondOperand = null;
-//     operatorState = null;
-//     updtDisplay('0');
-
-    
-// });
