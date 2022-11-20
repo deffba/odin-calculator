@@ -3,10 +3,15 @@ html {
     margin: 0;
     box-sizing: border-box;
     height: 100vh;
+    font-family: 'Share Tech', sans-serif;
+    border-radius: 10%;
 }
 
 *, *:before, *:after {
     box-sizing: inherit;
+    font-family: inherit;
+    padding: inherit;
+    margin: inherit;
   }
 
 body {
@@ -21,9 +26,14 @@ body {
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    
     height: 600px;
-    width: 475px;
-    background-color: darkgreen;
+    width: 400px;
+
+    background-color: rgb(11, 88, 63);
+    
+    border-radius: 3%;
+    box-shadow: -10px -10px 4px rgba(37, 43, 30, 0.768) inset, 10px 10px 4px rgba(67, 156, 128, 0.776)  inset, 20px 20px 8px rgba(54, 53, 53, 0.568);
 }
 
 #upper-container {
@@ -31,18 +41,28 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    height: 30px;
+    height: 65px;
     width: 300px;
-    background-color: burlywood;
+  
     color: black;
 }
 
 #display {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
     height: 60px;
     width: 300px;
+
+    border-radius: 8px;
+    border-color:rgb(198, 53, 53);
+    box-shadow: 4px 4px 4px rgba(78, 186, 152, 0.75), 4px 4px 4px rgba(55, 65, 44, 0.672) inset ;
+    
     background-color: rgb(165, 217, 106);
-    font-size: 45px;
-    color: black;
+    color: rgb(33, 43, 22);
+    font-family: 'VT323', monospace;
+    font-size: 65px;
 }
 
 #deleters-container {
@@ -52,6 +72,19 @@ body {
     justify-content: space-between;
 }
 
+.deleter {
+    width: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color:rgb(159, 14, 14);
+    color: rgb(19, 46, 46);
+
+    border-radius: 10%;
+
+}
+
 #buttons-container {
     display: flex;
     flex-flow: row nowrap;
@@ -59,8 +92,28 @@ body {
     height: 240px;
     align-items: center;
     justify-content: space-between;
-    
+
 }
+
+button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: inherit;
+    font-size: 30px;
+    font-weight: 800;
+
+    border-radius: 10%;
+    -webkit-text-stroke: 1px rgb(0, 0, 0);
+    box-shadow: 3px 3px 1px rgb(55, 54, 54);
+
+    height: 50px;
+    width: 50px;
+    padding: 5px;
+    margin: 5px;
+}
+
 
 #operand-container {
     display: flex;
@@ -69,7 +122,7 @@ body {
     justify-content: space-around;
     width: 200px;
     height: 240px;
-    background-color: brown;
+    
 }
 
 #operator-container {
@@ -78,14 +131,26 @@ body {
     align-items: flex-end;
     width: 100px;
     height: 240px;
-    background-color: blue;
+}
+
+#logo, #model-no {
+    margin-top: auto;
+}
+
+#logo {
+    font-family: 'Pacifico', cursive;
+    color: goldenrod;
+    -webkit-text-stroke: 2px rgb(249, 245, 129);
+    text-shadow: 6px 2px 2px rgb(75, 57, 12);
+    font-size: 45px;
+    
 
 }
 
-.button {
-    height: 50px;
-    width: 50px;
-    padding: 5px;
-    margin: 5px;
-
+#model-no {
+    font-family: 'Roboto Mono', monospace;
+    -webkit-text-stroke: 0.65px rgba(187, 188, 181, 0.935);
+    font-size: 22px;
+    font-weight: 900;
+ 
 }
