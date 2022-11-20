@@ -62,6 +62,7 @@ function updtDisplay() {
 
     if (sum == 'Infinity') { //When dividing by zero
         display.style.fontSize = '38px';
+        display.style.justifyContent = 'flex-start';
         infAndBeyond = setTimeout(() => {
             display.textContent = 'Infinity and beyond!';
         }, 1750)
@@ -194,6 +195,8 @@ window.addEventListener('keydown', (event) => {
 function getOperator(obj) {
     
     //operator = obj.textContent
+    if (firstOperand === null) {//prevent inputting operator before first operand
+        return; }
 
     if (obj == '+' || obj == '-') { //handle keyboard input
         operator = obj;
@@ -210,9 +213,8 @@ function getOperator(obj) {
         resetOnEqual();
     }
 
-    if (firstOperand === null) {//prevent inputting operator before first operand
-        return;
-    } else if (operatorState !== null) {
+
+    if (operatorState !== null) {
         return;
     } else if (operator == '×') {
         operatorState = '*';
@@ -299,6 +301,7 @@ function fullRst() { //clears both operands and operator and resets screen
     firstOperand = null;
     operator = null;
     display.style.fontSize = '65px';
+    display.style.justifyContent = 'flex-end';
     updtDisplay();
 }
 
