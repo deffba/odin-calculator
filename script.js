@@ -63,8 +63,7 @@ function updtDisplay() {
     if (sum == 'Infinity') { //When dividing by zero
         display.style.fontSize = '38px';
         infAndBeyond = setTimeout(() => {
-            sum += ' and beyond!';
-            updtDisplay()
+            display.textContent = 'Infinity and beyond!';
         }, 1750)
     }
 
