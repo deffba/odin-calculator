@@ -107,7 +107,7 @@ function getNumInput(obj) {
         updtDisplay();
     }
 
-    if (operatorState !== null) {
+    if (operatorState !== null) { //switch to input secondOperand
         (secondOperand === null) ? secondOperand = inputNum : secondOperand += inputNum;
         updtDisplay();
     }
@@ -123,8 +123,23 @@ decimalPoint.addEventListener('click', () => {
 
 });
 
+window.addEventListener('keydown', (event) => {
+    let key = event.key;
+    if (key == '.') {
+        getDecPnt(key);
+    }
+})
+
 function getDecPnt(obj) {
-    let decPnt = obj.textContent;
+    let decPnt;
+
+    if (obj === '.') {
+        decPnt = obj;
+    } else {
+        decPnt = obj.textContent;
+    }
+    
+    //let decPnt = obj.textContent;
 
     if (operatorState === null) { //prevent several decimal points in one number
         if (firstOperand.includes('.')) {
@@ -209,8 +224,7 @@ equalSign.addEventListener('click', () => {
 
 window.addEventListener('keydown', (event) => {
     var name = event.key;
-    var code = event.code;
-    if (event.key == '=') {
+    if (event.key == '=' || event.key == 'Enter') {
         operate();
     }
 })
@@ -257,6 +271,14 @@ acBtn.addEventListener('click', () => {
     fullRst();
 })
 
+window.addEventListener('keydown', (event) => {
+    let key = event.key;
+    if (key == 'Escape') {
+        event.preventDefault();
+        fullRst();
+    }
+})
+
 function fullRst() { //clears both operands and operator and resets screen
     sum = null;
     operatorState = null;
@@ -273,6 +295,14 @@ const delBtn = document.getElementById('delete');
 
 delBtn.addEventListener('click', () => {
     del();
+})
+
+window.addEventListener('keydown',(event) => { //keyb input delete
+    let key = event.key;
+    if (key == 'Backspace') {
+        event.preventDefault();
+        del()
+    }
 })
 
 function del() {
