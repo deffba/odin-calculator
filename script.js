@@ -1,24 +1,3 @@
-/*PSEUDO-CODE
-    1. Get entered operand
-        i. set eventlisteners to numerals
-        ii. store in firstOperandHolder
-    2. Get operator
-        i. eventlisteners on operators
-        ii. display operator
-        iii. store firstOperandHolder and operator in string.?
-        iiib. store operator separately and await second operand.
-    3. Get next operand(s)
-    4. Perform calculation
-    5. Display result
-
-    Nice-to-haves
-    1. Keyboard support
-    2. Square root calculation
-    3. Memory function
-
-    */
-
-
 
 /*=================================================
                 GLOBAL VARIABLES
@@ -26,7 +5,7 @@
 let firstOperand = null;
 let secondOperand = null;
 let operatorState = null;
-let operator; //the operator that's shown
+let operator; //the operator that's displayed
 
 
 
@@ -49,9 +28,6 @@ function multiplication(num1, num2) {
 }
 
 function division(num1, num2) {
-    if (num1 === 0 && num2 ===0){
-        sum
-    }
     return sum = num1 / num2;
 }
 
@@ -78,6 +54,13 @@ function updtDisplay() {
 
     if (sum !== null) { //display sum after pressing equal sign
         display.textContent = sum;
+    }
+
+    if (sum == 'Infinity') { //When dividing by zero
+        infAndBeyond = setTimeout( () => {
+                sum += ' and beyond!';
+                updtDisplay()
+        }, 1750)
     }
 
 
