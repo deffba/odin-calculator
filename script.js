@@ -16,22 +16,24 @@ let operator; //the operator that's displayed
 let sum = null;
 
 function addition(num1, num2) {
-    return sum = num1 + num2;
+    sum = num1 + num2;
 }
 
 function subtraction(num1, num2) {
-    return sum = num1 - num2;
+    sum = num1 - num2;
 }
 
 function multiplication(num1, num2) {
-    return sum = num1 * num2;
+    sum = num1 * num2;
 }
 
 function division(num1, num2) {
-    return sum = num1 / num2;
+    sum = num1 / num2;
 }
 
+function roundDown(num) {
 
+}
 
 /*=================================================
                     DISPLAY
@@ -66,6 +68,13 @@ function updtDisplay() {
 
 
 
+}
+
+
+function detectLength(num) {
+    if (num.length > 11) {
+        display.textContent = '!ERR:LNGTH!';
+    }
 }
 
 
@@ -105,11 +114,13 @@ function getNumInput(obj) {
     if (operatorState === null) { //handle firstOperand both as null value and int
         (firstOperand === null) ? firstOperand = inputNum : firstOperand += inputNum;
         updtDisplay();
+        detectLength(firstOperand);
     }
 
     if (operatorState !== null) { //switch to input secondOperand
         (secondOperand === null) ? secondOperand = inputNum : secondOperand += inputNum;
         updtDisplay();
+        detectLength(firstOperand + operatorState + secondOperand);
     }
 }
 
@@ -223,8 +234,9 @@ equalSign.addEventListener('click', () => {
 
 
 window.addEventListener('keydown', (event) => {
-    var name = event.key;
-    if (event.key == '=' || event.key == 'Enter') {
+    var key = event.key;
+    if (key == '=' || key == 'Enter') {
+        event.preventDefault();
         operate();
     }
 })
@@ -252,7 +264,7 @@ function operate() {
             break;
 
     }
-
+    
     updtDisplay();
 
 }
@@ -284,6 +296,7 @@ function fullRst() { //clears both operands and operator and resets screen
     operatorState = null;
     secondOperand = null;
     firstOperand = null;
+    operator = null;
     display.style.fontSize = '65px';
     updtDisplay();
 }
