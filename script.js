@@ -68,13 +68,30 @@ function updtDisplay() {
         }, 1750)
     }
 
+    detectLength();
+
 
 
 }
 
 
-function detectLength(num) {
-    if (num.length > 11) {
+function detectLength() { //check that there's sufficient memory for displaying the numbers on the tiny, tiny screen
+    if (firstOperand !== null && operatorState !== null && secondOperand !== null) {
+        if ((firstOperand + operatorState + secondOperand).length > 11)
+        display.textContent = '!ERR:LNGTH!';
+    }
+
+    if (firstOperand !== null && operatorState !== null && secondOperand === null) {
+        if ((firstOperand + operatorState).length > 11)
+        display.textContent = '!ERR:LNGTH!';
+    }
+
+    if (firstOperand !== null && operatorState === null && secondOperand === null) {
+        if (firstOperand.length > 11)
+        display.textContent = '!ERR:LNGTH!';
+    }
+
+    if (sum !== null && sum.length > 11) {
         display.textContent = '!ERR:LNGTH!';
     }
 }
@@ -116,13 +133,15 @@ function getNumInput(obj) {
     if (operatorState === null) { //handle firstOperand both as null value and int
         (firstOperand === null) ? firstOperand = inputNum : firstOperand += inputNum;
         updtDisplay();
-        detectLength(firstOperand);
+        //detectLength();
     }
+
+
 
     if (operatorState !== null) { //switch to input secondOperand
         (secondOperand === null) ? secondOperand = inputNum : secondOperand += inputNum;
         updtDisplay();
-        detectLength(firstOperand + operatorState + secondOperand);
+        //detectLength();
     }
 }
 
@@ -222,8 +241,8 @@ function getOperator(obj) {
         operatorState = operator;
     }
     
-
     updtDisplay();
+    //detectLength();
 }
 
 //APPLY OPERATOR
@@ -337,9 +356,8 @@ function del() {
         firstOperand = firstOperand.slice(0, -1);
     }
     updtDisplay();
+    detectLength();
 }
-
-
 
 
 
