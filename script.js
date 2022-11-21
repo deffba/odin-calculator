@@ -43,7 +43,13 @@ function roundDown() {
 let display = document.getElementById('display');
 
 function updtDisplay() {
-    if (firstOperand === null) { //when empty
+
+    if (sum === '0' || sum === 0) { //make sure you can type over a zero from a sum.
+        fullRst();
+        updtDisplay();
+    }
+    
+    if (firstOperand === null || display.textContent == '') { //when null or empty
         display.textContent = 0;
     } else if (firstOperand !== null && operatorState === null) { //start displaying 1st operand
         display.textContent = `${firstOperand}`;
@@ -123,11 +129,6 @@ window.addEventListener('keydown', (event) => {
 
 function getNumInput(obj) {
     let inputNum;
-
-    if (sum == 0) { //make sure you can type over a zero from a sum.
-        fullRst();
-        updtDisplay();
-    }
     
     if (obj >= 0 || obj <= 9) { //differentiate between mouse and keyboard input
         inputNum = obj;
@@ -193,8 +194,17 @@ function getDecPnt(obj) {
 
     updtDisplay();
 }
-//GET NEGATIVE NUMBER
 
+
+//GET NEGATIVE NUMBER
+let minusBtn = document.getElementById('minusSign');
+
+minusBtn.addEventListener('click', () => {
+    if (firstOperand !== null && operatorState === null) { //prevent firing both event listeners on the minus button simultaneously
+        return;
+    }
+    getNegative(minusBtn);
+})
 
 window.addEventListener('keydown', (event) => {
     let key = event.key;
@@ -305,7 +315,7 @@ function operate() {
     let fO = Number(firstOperand);
     let sO = Number(secondOperand);
 
-    if (secondOperand === null) {
+    if (secondOperand === null) {//prevent activiating if there's no second operand
         return
     }
 
