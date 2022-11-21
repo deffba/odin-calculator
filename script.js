@@ -122,6 +122,10 @@ window.addEventListener('keydown', (event) => {
 
 function getNumInput(obj) {
     let inputNum;
+
+    if (sum == 0) { //make sure you can type over a zero from a sum.
+        fullRst();
+    }
     
     if (obj >= 0 || obj <= 9) { //differentiate between mouse and keyboard input
         inputNum = obj;
@@ -133,7 +137,6 @@ function getNumInput(obj) {
     if (operatorState === null) { //handle firstOperand both as null value and int
         (firstOperand === null) ? firstOperand = inputNum : firstOperand += inputNum;
         updtDisplay();
-        //detectLength();
     }
 
 
@@ -141,7 +144,6 @@ function getNumInput(obj) {
     if (operatorState !== null) { //switch to input secondOperand
         (secondOperand === null) ? secondOperand = inputNum : secondOperand += inputNum;
         updtDisplay();
-        //detectLength();
     }
 }
 
@@ -170,8 +172,6 @@ function getDecPnt(obj) {
     } else {
         decPnt = obj.textContent;
     }
-    
-    //let decPnt = obj.textContent;
 
     if (operatorState === null) { //prevent several decimal points in one number
         if (firstOperand.includes('.')) {
@@ -229,8 +229,8 @@ function getOperator(obj) {
 
     if (sum !== null) { //continue calculating with new sum
         firstOperand = sum;
-        resetOnEqual();
-    }
+        resetOnEqual();}
+
 
 
     if (operatorState !== null) {
@@ -242,7 +242,7 @@ function getOperator(obj) {
     }
     
     updtDisplay();
-    //detectLength();
+
 }
 
 //APPLY OPERATOR
@@ -359,7 +359,42 @@ function del() {
     detectLength();
 }
 
+//GET NEGATIVE NUMBER
 
+
+window.addEventListener('keydown', (event) => {
+    let key = event.key;
+    if (key == '-') {
+        event.preventDefault();
+    getNegative(key);
+}
+})
+
+function getNegative(obj) {
+    let minusSign;
+    if (obj === '-') {
+        minusSign = obj;
+    } else {
+        minusSign = obj.textContent;
+    }
+
+    if (firstOperand === null) {
+        firstOperand = minusSign;
+    } 
+    
+    if (operatorState !== null && secondOperand !== null) {
+        secondOperand = minusSign;
+    }
+
+    // if (firstOperand == "--") {
+    //     firstOperand = "-";
+    // } else if (secondOperand == "--") {
+    //     secondOperand = "-";
+    // } 
+
+    updtDisplay();
+
+}
 
 
 
