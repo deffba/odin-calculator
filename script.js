@@ -57,6 +57,7 @@ function updtDisplay() {
 
     if (sum !== null) { //display sum after pressing equal sign
         roundDown();
+        sum = Number(sum);
         display.textContent =  sum;
     }
 
@@ -125,6 +126,7 @@ function getNumInput(obj) {
 
     if (sum == 0) { //make sure you can type over a zero from a sum.
         fullRst();
+        updtDisplay();
     }
     
     if (obj >= 0 || obj <= 9) { //differentiate between mouse and keyboard input
@@ -191,6 +193,38 @@ function getDecPnt(obj) {
 
     updtDisplay();
 }
+//GET NEGATIVE NUMBER
+
+
+window.addEventListener('keydown', (event) => {
+    let key = event.key;
+    if (firstOperand !== null && operatorState === null) {
+        return
+    } else if (key == '-') {
+        event.preventDefault();
+        getNegative(key);
+        }
+    }
+);
+
+function getNegative(obj) {
+    let minusSign;
+        
+    if (obj == '-') {
+        minusSign = obj;
+    } else {
+        minusSign = obj.textContent;
+    }
+
+    if (firstOperand === null) {
+        firstOperand = minusSign;
+    } else if (secondOperand == null) {
+        secondOperand = minusSign;
+    }
+
+    updtDisplay();
+
+}
 
 
 //GET OPERATOR
@@ -212,8 +246,17 @@ window.addEventListener('keydown', (event) => {
 })
 
 function getOperator(obj) {
-    
-    //operator = obj.textContent
+    if (sum !== null) { //continue calculating with new sum
+        resetOnEqual();}
+
+    if (operatorState !== null) {
+        return;
+    }
+
+    if (firstOperand === '-') {
+        return;
+    }
+  
     if (firstOperand === null) {//prevent inputting operator before first operand
         return; }
 
@@ -227,20 +270,15 @@ function getOperator(obj) {
         operator = obj.textContent;
     }
 
-    if (sum !== null) { //continue calculating with new sum
-        firstOperand = sum;
-        resetOnEqual();}
 
 
 
-    if (operatorState !== null) {
-        return;
-    } else if (operator == '×') {
+    if (operator == '×') {
         operatorState = '*';
-    } else {
+    } else { 
         operatorState = operator;
     }
-    
+
     updtDisplay();
 
 }
@@ -266,6 +304,10 @@ window.addEventListener('keydown', (event) => {
 function operate() {
     let fO = Number(firstOperand);
     let sO = Number(secondOperand);
+
+    if (secondOperand === null) {
+        return
+    }
 
 
     switch (operatorState) {
@@ -294,9 +336,12 @@ function operate() {
 //RESET
 
 function resetOnEqual() { //partial reset after equals to continue operation
+    firstOperand = sum;
     sum = null;
     operatorState = null;
+    operator = null;
     secondOperand = null;
+    updtDisplay();
 }
 
 const acBtn = document.getElementById('ac')
@@ -359,42 +404,7 @@ function del() {
     detectLength();
 }
 
-//GET NEGATIVE NUMBER
 
-
-window.addEventListener('keydown', (event) => {
-    let key = event.key;
-    if (key == '-') {
-        event.preventDefault();
-    getNegative(key);
-}
-})
-
-function getNegative(obj) {
-    let minusSign;
-    if (obj === '-') {
-        minusSign = obj;
-    } else {
-        minusSign = obj.textContent;
-    }
-
-    if (firstOperand === null) {
-        firstOperand = minusSign;
-    } 
-    
-    if (operatorState !== null && secondOperand !== null) {
-        secondOperand = minusSign;
-    }
-
-    // if (firstOperand == "--") {
-    //     firstOperand = "-";
-    // } else if (secondOperand == "--") {
-    //     secondOperand = "-";
-    // } 
-
-    updtDisplay();
-
-}
 
 
 
